@@ -6,7 +6,6 @@ const { deleteUser, createUser, getUsers } = require('../controllers/users.contr
 router.route('/')
     .get(getUsers)
     .post(createUser)
-
 router.route('/:id')
     .delete(deleteUser)
 
