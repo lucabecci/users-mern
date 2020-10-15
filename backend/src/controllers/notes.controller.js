@@ -1,14 +1,58 @@
 const notesCtrl = {}
+const Note =  require('../models/Note')
 
-notesCtrl.getNotes = (req, res) => res.json({ message: [] })
+notesCtrl.getNotes = async(req, res) => {
+    const notes = await Note.find();
+    res.json({
+        data: notes
+    })
+}
 
-notesCtrl.createNote = (req, res) => res.json({message: 'successfully upload'})
+notesCtrl.createNote = async(req, res) => {
+    const { title, content, date, author } = req.body
+    const newNote = new Note({
+        title,
+        content,
+        author,
+        date
+    })
+    await newNote.save()
+    res.json({
+        petition: true,
+        created: newNote.length
+    })
+}
 
-notesCtrl.getNote = (req, res) => res.json({message: []})
+notesCtrl.getNote = async(req, res) => {
+    const { id } = req.params;
+    const note = await Note.findById(id)
+    res.json({
+        petition:true,
+        data: note
+    })
+}
 
-notesCtrl.updateNote = (req, res) => res.json({message: 'successfuly updated'})
+notesCtrl.updateNote = async(req, res) => {
+    const { id } = req.params;
+    const { title, content, author } = req.body;
+    await Note.findOneAndUpdate({_id:id}, {
+        title,
+        content,
+        author
+    })
+    res.json({
+        petition: true
+    })
+}
 
-notesCtrl.deleteNote = (req, res) => res.json({message: 'successfuly deleted'})
+notesCtrl.deleteNote = async(req, res) => {
+    const { id } = req.params;
+    const deletedNote = await Note.findByIdAndDelete(id)
+    res.json({
+        petition: true, 
+        deleted: deletedNote.length
+    })
+}
 
 
 module.exports = notesCtrl

@@ -1,10 +1,33 @@
 const userCtrl = {}
+const User = require('../models/User')
 
-userCtrl.getUsers = (req, res) => res.json({ message: [] })
+userCtrl.getUsers = async(req, res) => {
+    const users = await User.find();
+    res.json({
+        petition: true,
+        data: users
+    })
+}
 
-userCtrl.createUser = (req, res) => res.json({message: 'successfully upload'})
+userCtrl.createUser = async(req, res) => {
+    const {username} = req.body
+    const newUser = new User({
+        username
+    })
+    await newUser.save()
+    res.json({
+        petition: true,
+        data: newUser
+    })
+}
 
-userCtrl.deleteUser = (req, res) => res.json({message: []})
+userCtrl.deleteUser = async(req, res) => {
+    const { id } = req.params
+    await User.findByIdAndDelete(id)
+    res.json({
+        petiton: true
+    })
+}
 
 
 

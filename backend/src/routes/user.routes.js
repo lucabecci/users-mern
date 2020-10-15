@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const router = Router()
-
+ 
 const { deleteUser, createUser, getUsers } = require('../controllers/users.controller')
 
 router.route('/')
