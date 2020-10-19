@@ -5,7 +5,7 @@ export const CreateUser = () => {
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
     useEffect( () => {
-        const getData = async() => {
+        async function getData(){
             const resp = await axios.get('http://localhost:4000/api/users')
             setUsers(resp.data.data)
         }
@@ -21,7 +21,7 @@ export const CreateUser = () => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        const resp = await axios.post('http://localhost:4000/api/users', {
+        await axios.post('http://localhost:4000/api/users', {
             username: newUser
         })
         setNewUser('')
